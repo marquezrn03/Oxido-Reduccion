@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Curs Interactiu Complet d'Electroquímica REDOX</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        MathJax = { tex: { inlineMath: [['$', '$'], ['\\(', '\\)']], displayMath: [['$$', '$$'], ['\\[', '\\]']] }, svg: { fontCache: 'global' } };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #0369a1; /* sky-700 */
+            --primary-light: #38bdf8; /* sky-400 */
+            --primary-lighter: #e0f2fe; /* sky-100 */
+            --primary-lightest: #f0f9ff; /* sky-50 */
+            --primary-dark: #0c4a6e; /* sky-900 */
+            --secondary-color: #f59e0b; /* amber-500 */
+            --text-color: #374151; /* gray-700 */
+            --text-dark: #1f2937; /* gray-800 */
+            --text-light: #6b7280; /* gray-500 */
+            --bg-light: #f8fafc; /* gray-50 */
+            --bg-white: #ffffff;
+            --border-color: #7dd3fc; /* sky-300 */
+            --border-light: #e0f2fe; /* sky-100 */
+        }
+        body { font-family: 'Inter', sans-serif; scroll-behavior: smooth; background-color: var(--bg-light); color: var(--text-color); }
+        h1 { color: var(--primary-dark); font-size: 2.1rem; line-height: 2.6rem; font-weight: 700; }
+        h2 { color: var(--primary-dark); font-size: 1.85rem; line-height: 2.3rem; font-weight: 700; border-bottom: 3px solid var(--border-color); padding-bottom: 0.7rem; margin-top: 3.5rem; margin-bottom: 2rem; }
+        h3 { color: var(--primary-color); font-size: 1.45rem; line-height: 1.95rem; font-weight: 600; margin-top: 2.8rem; margin-bottom: 1.4rem; border-bottom: 1px solid var(--primary-lighter); padding-bottom: 0.4rem; }
+        h4 { color: var(--primary-dark); font-size: 1.2rem; font-weight: 600; margin-bottom: 1rem; }
+        p, li, td, th { color: var(--text-color); line-height: 1.85; margin-bottom: 1.3rem; font-size: 1.05rem; }
+        li { margin-bottom: 0.5rem; }
+        strong { color: var(--text-dark); font-weight: 600; }
+        code { background-color: var(--primary-lighter); color: var(--primary-dark); padding: 0.2em 0.5em; border-radius: 0.25rem; font-family: 'Courier New', Courier, monospace; font-size: 0.95em; }
+        .section-bg-light { background-color: var(--primary-lightest); padding: 2.5rem 2rem; border-radius: 0.5rem; box-shadow: 0 2px 4px rgba(0,0,0,0.04); }
+        .section-bg-white { background-color: var(--bg-white); padding: 2.5rem 2rem; border-radius: 0.5rem; box-shadow: 0 3px 7px rgba(0,0,0,0.06); }
+        .interactive-block { margin-top: 2.5rem; margin-bottom: 2.5rem; padding: 2.5rem; border: 1px solid var(--border-color); border-radius: 0.75rem; background-color: var(--bg-white); box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08); }
+        .math-block { margin: 2rem 0; padding: 1.5rem; background-color: var(--primary-lightest); border-left: 6px solid var(--primary-light); font-size: 1.15rem; overflow-x: auto; box-shadow: inset 3px 3px 6px rgba(0,0,0,0.05); border-radius: 0 0.5rem 0.5rem 0; }
+        .footer-attribution { margin-top: 2.5rem; font-size: 0.9rem; line-height: 1.3rem; color: var(--text-light); text-align: center; }
+        a { color: var(--primary-color); text-decoration: none; transition: color 0.2s ease;}
+        a:hover { color: var(--primary-dark); text-decoration: underline;}
+        table { width: 100%; border-collapse: collapse; margin-top: 2rem; margin-bottom: 2rem; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+        th, td { border: 1px solid var(--border-light); padding: 0.8rem 1rem; text-align: left; vertical-align: top; }
+        th { background-color: var(--primary-lighter); color: var(--primary-darker); font-weight: 600; font-size: 1rem; }
+        td { background-color: var(--bg-white); font-size: 0.95rem; }
+        tbody tr:nth-child(odd) td { background-color: #f8fafc; }
+        td ul { padding-left: 1.2rem; margin-bottom: 0; }
+        td li { font-size: 0.95rem; margin-bottom: 0.3rem; }
+        button { background-color: var(--primary-light); color: var(--primary-dark); padding: 0.6rem 1.2rem; border-radius: 0.375rem; font-weight: 600; transition: all 0.2s ease-in-out; display: inline-block; text-align: center; border: 1px solid var(--primary-color); cursor: pointer; font-size: 0.95rem; }
+        button:hover { background-color: var(--primary-color); color: var(--primary-lightest); transform: translateY(-1px); box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); }
+        input[type="text"], input[type="number"], select { padding: 0.6rem; border: 1px solid #D1D5DB; border-radius: 0.375rem; width: 100%; background-color: var(--bg-white); font-size: 0.95rem; margin-bottom: 0.5rem;}
+        .output-box { background-color: var(--primary-lightest); border: 1px solid var(--border-color); border-radius: 0.375rem; padding: 1rem; margin-top: 1rem; font-family: monospace; white-space: pre-wrap; }
+        .cella-diagrama { display: flex; justify-content: space-around; align-items: center; margin-top: 1.5rem; padding: 1rem; background-color: #f9fafb; border-radius: 0.5rem; border: 1px solid #e5e7eb; min-height: 250px; }
+        .electrode-container { text-align: center; }
+        .electrode { width: 50px; height: 120px; background-color: #9ca3af; border: 1px solid #6b7280; margin: 0 auto 0.5rem; position: relative; }
+        .solution { width: 100px; height: 100px; background-color: var(--accent-blue-light); border: 1px solid var(--accent-blue); border-radius: 0 0 0.5rem 0.5rem; margin: 0 auto; position: relative; overflow: hidden; }
+        .salt-bridge { position: absolute; top: -20px; left: 50%; transform: translateX(-50%); width: 80px; height: 40px; border: 2px solid #d1d5db; border-top-left-radius: 40px; border-top-right-radius: 40px; border-bottom: none; background-color: #f3f4f6; z-index: 5; }
+        .wire { position: absolute; top: -30px; height: 30px; border-left: 2px solid #4b5563; z-index: 10; }
+        .electron-flow { position: absolute; font-size: 1.5rem; color: #ef4444; animation: flow 2s linear infinite; z-index: 15; }
+        @keyframes flow { 0% { transform: translateX(0); opacity: 1;} 100% { transform: translateX(100px); opacity: 0;} }
+        .voltmeter { border: 1px solid #4b5563; background-color: #e5e7eb; padding: 0.2rem 0.5rem; font-size: 0.9rem; font-weight: bold; position: absolute; top: -50px; left: 50%; transform: translateX(-50%); z-index: 20; }
+        .potential-table th, .potential-table td { font-size: 0.9rem; padding: 0.5rem; }
+        .corrosion-container { display: flex; justify-content: center; align-items: center; gap: 0; margin-top: 1rem; padding: 1rem; background-color: #e0f2fe; border: 1px solid #bae6fd; border-radius: 0.5rem; }
+        .metal-block { width: 80px; height: 100px; display: flex; justify-content: center; align-items: center; font-weight: bold; color: white; border: 1px solid #4b5563; }
+        .corrosion-arrow { font-size: 2rem; margin: 0 1rem; color: #ef4444; }
+        .hidden { display: none; }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-800 antialiased">
+    <header class="bg-gradient-to-r from-sky-700 via-cyan-600 to-sky-700 text-white shadow-lg sticky top-0 z-50">
+        <div class="container mx-auto px-8 py-6">
+             <h1 class="text-3xl md:text-4xl font-bold">Màster Class Doctoral: Guia Completa d'Electroquímica REDOX</h1>
+            <p class="text-xl font-semibold mt-2">Fonaments, Cel·les Electroquímiques, Aplicacions i Simulacions</p>
+        </div>
+    </header>
+    <main class="container mx-auto px-8 py-12">
+        <section id="intro-redox" class="mb-16 p-8 rounded-lg shadow-xl section-bg-white">
+            <h2 >Introducció a les Reaccions REDOX (Reducció-Oxidació)</h2>
+            <p>Les reaccions d'òxido-reducció, o REDOX, són fonamentals en química i biologia. Impliquen un canvi en l'estat d'oxidació dels àtoms participants a causa d'una <strong>transferència d'electrons</strong>. Un àtom perd electrons (s'oxida) mentre un altre els guanya (es redueix). Aquests dos processos sempre ocorren simultàniament.</p>
+            <div class="flex justify-center my-4">
+                 <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/34/Redox_Reaction.svg/400px-Redox_Reaction.svg.png" alt="[Imatge d'Esquema Reacció REDOX]" class="rounded shadow-md max-w-sm w-full">
+            </div>
+            <ul>
+                <li><strong>Oxidació:</strong> Pèrdua d'electrons. L'espècie que s'oxida és l'<strong>agent reductor</strong> (perquè redueix a l'altra espècie). Exemple: $Fe^{0} \rightarrow Fe^{+3} + 3e^{-}$</li>
+                <li><strong>Reducció:</strong> Guany d'electrons. L'espècie que es redueix és l'<strong>agent oxidant</strong> (perquè oxida a l'altra espècie). Exemple: $O_2 + 4e^{-} \rightarrow 2O^{-2}$</li>
+            </ul>
+            <p>La comprensió d'aquest intercanvi electrònic és la base de l'electroquímica, que estudia la relació entre les reaccions químiques i l'energia elèctrica.</p>
+        </section>
+
+        <section id="estat-oxidacio" class="mb-16 p-8 rounded-lg shadow-lg section-bg-light">
+            <h2 >Determinació de l'Estat (o Nombre) d'Oxidació</h2>
+            <p>Per identificar si una reacció és REDOX i quines espècies canvien, hem de determinar el nombre d'oxidació de cada element. Aquí teniu les regles clau:</p>
+            <ol class="list-decimal list-inside pl-4 space-y-2">
+                <li>Elements en estat elemental (metalls purs com Na, Fe; molècules diatòmiques com $O_2, H_2, Cl_2$; no-metalls com S, P) tenen un nombre d'oxidació de <strong>0</strong>.</li>
+                <li>L'oxigen (O) en compostos té generalment un nombre d'oxidació de <strong>-2</strong> (excepcions: peròxids com $H_2O_2$ on és -1; amb Fluor com $OF_2$ on és +2).</li>
+                <li>L'hidrogen (H) en compostos té generalment un nombre d'oxidació de <strong>+1</strong> (excepció: hidrurs metàl·lics com NaH on és -1).</li>
+                <li>Els metalls alcalins (Grup 1: Li, Na, K...) en compostos sempre són <strong>+1</strong>. Els alcalinoterris (Grup 2: Mg, Ca, Ba...) sempre són <strong>+2</strong>.</li>
+                <li>La suma dels nombres d'oxidació de tots els àtoms en una molècula neutra és <strong>0</strong>. En un ió poliatòmic, la suma és igual a la <strong>càrrega de l'ió</strong>.</li>
+                <li>Per a la resta d'elements, es dedueix aplicant les regles anteriors i resolent algebraicament.</li>
+            </ol>
+             <div class="interactive-block mt-8">
+                 <h4 class="text-center !mt-0 !border-b-0">Calculadora d'Estats d'Oxidació (Exemple Simple)</h4>
+                 <p class="text-center text-sm text-gray-600 mb-4">Introdueix una fórmula simple (ex: H2SO4, MnO4-, Fe2O3) per veure els estats d'oxidació.</p>
+                 <div class="flex flex-col md:flex-row gap-4 items-end">
+                     <div class="flex-grow">
+                         <label for="compound-input">Fórmula Química:</label>
+                         <input type="text" id="compound-input" placeholder="Ex: H2SO4">
+                     </div>
+                     <button onclick="calculateOxidationStates()">Calcula</button>
+                 </div>
+                 <div id="oxidation-output" class="output-box mt-4 min-h-[3em]"></div>
+             </div>
+        </section>
+
+        <section id="ajustament-redox" class="mb-16 p-8 rounded-lg shadow-lg section-bg-white">
+            <h2 >Ajustament de Reaccions REDOX: Mètode Ió-Electró</h2>
+            <p>Les reaccions REDOX requereixen un mètode d'ajustament específic per equilibrar tant la massa com la càrrega (electrons transferits). El mètode ió-electró és el més comú.</p>
+            <h4>Passos Generals (Exemple: $Cu + HNO_3 \rightarrow Cu(NO_3)_2 + NO_2 + H_2O$):</h4>
+            <ol class="list-decimal list-inside pl-4 space-y-3">
+                <li><strong>Escriure l'equació iònica:</strong> Dissociar electròlits forts en ions. Identificar espècies que canvien l'estat d'oxidació.
+                    <div class="math-block">$Cu^0 + H^+ + NO_3^- \rightleftharpoons Cu^{+2} + NO_3^- + NO_2^0 + H_2O$ <br> Canvis: $Cu^0 \rightarrow Cu^{+2}$ (Oxidació), $N^{+5}$ (en $NO_3^-$) $\rightarrow N^{+4}$ (en $NO_2$) (Reducció)</div>
+                </li>
+                <li><strong>Formular semireaccions:</strong> Escriure per separat les reaccions d'oxidació i reducció.
+                    <div class="math-block">Oxidació: $Cu \rightarrow Cu^{+2}$ <br> Reducció: $NO_3^- \rightarrow NO_2$</div>
+                </li>
+                <li><strong>Ajustar àtoms (excepte O i H):</strong> En aquest cas, Cu i N ja estan ajustats (1 a cada costat).</li>
+                <li><strong>Ajustar Oxigen (O) amb $H_2O$:</strong>
+                     <div class="math-block">Oxidació: (No hi ha O) <br> Reducció: $NO_3^- \rightarrow NO_2 + H_2O$</div>
+                </li>
+                 <li><strong>Ajustar Hidrogen (H) amb $H^+$ (medi àcid):</strong>
+                     <div class="math-block">Oxidació: (No hi ha H) <br> Reducció: $2H^+ + NO_3^- \rightarrow NO_2 + H_2O$ <br> <i>(Nota: En medi bàsic, per cada $H^+$ afegit, s'afegeix un $OH^-$ a banda i banda, formant $H_2O$ on coincideixin $H^+$ i $OH^-$).</i></div>
+                </li>
+                 <li><strong>Ajustar Càrregues amb electrons ($e^-$):</strong> Afegir electrons al costat més positiu per igualar càrregues.
+                     <div class="math-block">Oxidació: $Cu \rightarrow Cu^{+2} + 2e^-$ (Càrrega neta 0 a banda i banda) <br> Reducció: $2H^+ + NO_3^- + 1e^- \rightarrow NO_2 + H_2O$ (Càrrega neta 0 a banda i banda)</div>
+                 </li>
+                 <li><strong>Igualar electrons transferits:</strong> Multiplicar cada semireacció pel factor necessari perquè el nombre d'electrons perduts sigui igual al guanyat.
+                      <div class="math-block">Oxidació: $Cu \rightarrow Cu^{+2} + 2e^-$ (x1) <br> Reducció: $(2H^+ + NO_3^- + 1e^- \rightarrow NO_2 + H_2O)$ (x2) <br> Resultat: $Cu \rightarrow Cu^{+2} + 2e^-$ <br> $4H^+ + 2NO_3^- + 2e^- \rightarrow 2NO_2 + 2H_2O$</div>
+                 </li>
+                 <li><strong>Sumar semireaccions:</strong> Cancel·lar electrons i espècies idèntiques a banda i banda.
+                      <div class="math-block">$Cu + 4H^+ + 2NO_3^- \rightarrow Cu^{+2} + 2NO_2 + 2H_2O$</div>
+                 </li>
+                 <li><strong>Reconstruir l'equació molecular:</strong> Tornar a associar ions espectadors per obtenir l'equació molecular final. Afegir els ions espectadors necessaris a banda i banda. En aquest cas, els $4H^+$ i $2NO_3^-$ provenen de $4HNO_3$. Al costat dret, $Cu^{+2}$ necessita $2NO_3^-$ (que no van participar en la redox) per formar $Cu(NO_3)_2$.
+                      <div class="math-block">$Cu + 4HNO_3 \rightarrow Cu(NO_3)_2 + 2NO_2 + 2H_2O$</div>
+                 </li>
+                 <li><strong>Comprovar:</strong> Verificar que tots els àtoms i la càrrega total estan equilibrats.</li>
+            </ol>
+             <div class="interactive-block mt-8">
+                 <h4 class="text-center !mt-0 !border-b-0">Pràctica d'Ajustament REDOX</h4>
+                 <p class="text-center text-sm text-gray-600 mb-4">Intenta ajustar les següents reaccions (solucions als problemes originals de la presentació):</p>
+                 <ol class="list-decimal list-inside pl-4 text-base mb-4">
+                     <li>$H_2SO_4 + HI \rightarrow H_2S + I_2 + H_2O$ (en medi àcid)</li>
+                     <li>$Fe_2O_3 + CO \rightarrow Fe + CO_2$</li>
+                 </ol>
+                 <button onclick="toggleSolution('sol1')" class="mb-2">Mostra/Amaga Solució 1</button>
+                 <div id="sol1" class="output-box hidden">$H_2SO_4 + 8HI \rightarrow H_2S + 4I_2 + 4H_2O$</div>
+                 <button onclick="toggleSolution('sol2')" class="mt-2">Mostra/Amaga Solució 2</button>
+                 <div id="sol2" class="output-box hidden">$Fe_2O_3 + 3CO \rightarrow 2Fe + 3CO_2$</div>
+             </div>
+        </section>
+
+        <section id="celles-electroquimiques" class="mb-16 p-8 rounded-lg shadow-lg section-bg-light">
+             <h2 >Introducció a l'Electroquímica: Cel·les Electroquímiques</h2>
+             <p>L'electroquímica estudia la interconversió entre energia química i energia elèctrica mitjançant reaccions REDOX. Aquesta interconversió es realitza en dispositius anomenats <strong>cel·les electroquímiques</strong>.</p>
+             <p>La transferència d'electrons en una reacció REDOX pot ser:</p>
+             <ul>
+                 <li><strong>Directa:</strong> Reactius en contacte directe (ex: corrosió del ferro). No es genera corrent elèctric útil.</li>
+                 <li><strong>Indirecta:</strong> Les semireaccions d'oxidació i reducció ocorren en compartiments separats (semicel·les), connectats per un circuit extern (per al flux d'electrons) i un pont salí o membrana porosa (per al flux d'ions i mantenir la neutralitat elèctrica). Això permet aprofitar o induir el flux d'electrons.</li>
+             </ul>
+             <p>Hi ha dos tipus principals de cel·les electroquímiques:</p>
+             <ol>
+                 <li><strong>Cel·les Galvàniques (o Voltaiques / Piles):</strong> Una reacció REDOX <strong>espontània</strong> ($\Delta G < 0$) genera un corrent elèctric ($E > 0$). Converteixen energia química en elèctrica.</li>
+                 <li><strong>Cel·les Electrolítiques:</strong> Un corrent elèctric extern força una reacció REDOX <strong>no espontània</strong> ($\Delta G > 0$, $E < 0$). Converteixen energia elèctrica en química (electròlisi).</li>
+             </ol>
+             <p>Totes les cel·les tenen dos <strong>elèctrodes</strong>:</p>
+             <ul>
+                 <li><strong>Ànode:</strong> On ocorre l'<strong>Oxidació</strong>.</li>
+                 <li><strong>Càtode:</strong> On ocorre la <strong>Reducció</strong>.</li>
+             </ul>
+             <p>La diferència de potencial elèctric entre els dos elèctrodes s'anomena <strong>força electromotriu (fem)</strong> o <strong>voltatge de la cel·la (E<sub>cel·la</sub>)</strong>, mesurat en Volts (V).</p>
+        </section>
+
+        <section id="piles-galvaniques" class="mb-16 p-8 rounded-lg shadow-lg section-bg-white">
+            <h2 >Cel·les Galvàniques (Piles Voltaiques)</h2>
+            <p>En una pila galvànica, la reacció REDOX espontània impulsa el flux d'electrons des de l'ànode fins al càtode a través del circuit extern.</p>
+             <div class="flex justify-center my-4">
+                 <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8c/Galvanic_cell_with_salt_bridge.svg/500px-Galvanic_cell_with_salt_bridge.svg.png" alt="[Imatge d'Esquema Pila Galvànica]" class="rounded shadow-md max-w-md w-full">
+                 </div>
+            <ul>
+                <li><strong>Ànode:</strong> Lloc de l'oxidació. Allibera electrons al circuit extern. És l'elèctrode <strong>negatiu</strong> en una pila galvànica.</li>
+                <li><strong>Càtode:</strong> Lloc de la reducció. Consumeix electrons del circuit extern. És l'elèctrode <strong>positiu</strong> en una pila galvànica.</li>
+                <li><strong>Flux d'electrons:</strong> Sempre de l'ànode (-) al càtode (+) pel circuit extern.</li>
+                <li><strong>Pont Salí / Membrana Porosa:</strong> Permet el flux d'ions entre les semicel·les per mantenir la neutralitat elèctrica i completar el circuit. Els anions es mouen cap a l'ànode i els cations cap al càtode.</li>
+            </ul>
+            <h3>Potencial Estàndard de Pila ($E^o_{pila}$)</h3>
+            <p>El potencial d'una pila mesurat en condicions estàndard (concentracions 1 M, pressions parcials de gasos 1 atm, temperatura 298 K o 25°C) s'anomena potencial estàndard de pila, $E^o_{pila}$. Es calcula a partir dels potencials estàndard de reducció ($E^o_{red}$) de les semicel·les tabulats (respecte a l'Elèctrode Estàndard d'Hidrogen, EEH, $E^o(H^+/H_2) = 0.00$ V):</p>
+            <div class="math-block">$$E^o_{pila} = E^o_{red}(\text{càtode}) - E^o_{red}(\text{ànode})$$</div>
+            <p>Alternativament, si es considera el potencial d'oxidació de l'ànode ($E^o_{ox}(\text{ànode}) = -E^o_{red}(\text{ànode})$):</p>
+            <div class="math-block">$$E^o_{pila} = E^o_{red}(\text{càtode}) + E^o_{ox}(\text{ànode})$$</div>
+            <p>Una reacció és espontània en condicions estàndard si $E^o_{pila} > 0$. L'espècie amb el potencial de reducció estàndard més positiu (o menys negatiu) actuarà com a càtode (es reduirà), mentre que l'altra actuarà com a ànode (s'oxidarà).</p>
+
+             <div class="interactive-block mt-8">
+                 <h4 class="text-center !mt-0 !border-b-0">Simulador de Piles Galvàniques Estàndard</h4>
+                 <p class="text-center text-sm text-gray-600 mb-4">Selecciona dues semicel·les per construir una pila i veure'n el potencial estàndard i l'espontaneïtat.</p>
+                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                     <div>
+                         <label for="half-cell-1">Semicel·la 1:</label>
+                         <select id="half-cell-1" class="potential-selector"></select>
+                     </div>
+                     <div>
+                         <label for="half-cell-2">Semicel·la 2:</label>
+                         <select id="half-cell-2" class="potential-selector"></select>
+                     </div>
+                 </div>
+                 <div class="text-center mb-4">
+                     <button onclick="calculateStandardCell()">Calcula Pila</button>
+                 </div>
+                 <div id="cell-output" class="output-box min-h-[10em]">Selecciona dues semicel·les diferents.</div>
+                 <div class="cella-diagrama mt-4 hidden" id="cell-diagram">
+                     <div class="electrode-container">
+                         <div class="voltmeter" id="cell-voltage">0.00 V</div>
+                         <div class="wire" style="left: 25%; width: 50%;">
+                             <span class="electron-flow" id="electron-flow-vis">e⁻ →</span>
+                         </div>
+                         <h4 id="anode-label">Ànode (-)</h4>
+                         <div class="electrode" id="anode-metal"></div>
+                         <div class="solution" id="anode-solution"></div>
+                         <p class="text-xs mt-1" id="anode-reaction"></p>
+                     </div>
+                     <div class="salt-bridge"></div>
+                     <div class="electrode-container">
+                         <h4 id="cathode-label">Càtode (+)</h4>
+                         <div class="electrode" id="cathode-metal"></div>
+                         <div class="solution" id="cathode-solution"></div>
+                          <p class="text-xs mt-1" id="cathode-reaction"></p>
+                     </div>
+                 </div>
+             </div>
+
+            <h3>Notació de Piles</h3>
+            <p>S'utilitza una notació abreujada per representar les piles:</p>
+            <div class="math-block">\text{Ànode (metall)} | \text{Ió ànode (conc.)} || \text{Ió càtode (conc.)} | \text{Càtode (metall)}</div>
+            <ul>
+                <li>Una barra vertical (|) indica una separació de fase (ex: elèctrode sòlid / solució).</li>
+                <li>Una doble barra vertical (||) representa el pont salí o membrana porosa.</li>
+                <li>Les concentracions (M) o pressions (atm) s'indiquen entre parèntesis.</li>
+                <li>Els gasos i elèctrodes inerts (com Pt) s'inclouen a l'extrem corresponent.</li>
+            </ul>
+            <p>Exemple (Pila Daniell): $Zn(s) | Zn^{+2}(1M) || Cu^{+2}(1M) | Cu(s)$</p>
+             <p>Exemple (Pila Zn/H+): $Zn(s) | Zn^{+2}(1M) || H^{+}(1M) | H_2(g, 1atm) | Pt(s)$</p>
+        </section>
+
+        <section id="espontaneitat-nernst" class="mb-16 p-8 rounded-lg shadow-lg section-bg-light">
+            <h2 >Espontaneïtat, Energia Lliure i Equació de Nernst</h2>
+            <p>La relació entre el potencial de la cel·la (E), l'energia lliure de Gibbs ($\Delta G$) i l'espontaneïtat és fonamental:</p>
+            <div class="math-block">$$\Delta G = -nFE$$</div>
+            <div class="math-block">$$\Delta G^o = -nFE^o$$</div>
+            On:
+            <ul>
+                <li>$n$: nombre de mols d'electrons transferits en la reacció ajustada.</li>
+                <li>$F$: Constant de Faraday ($96485 \, C/mol \, e^-$).</li>
+                <li>$E$: Potencial de la cel·la (V).</li>
+                <li>$E^o$: Potencial estàndard de la cel·la (V).</li>
+                <li>$\Delta G$: Canvi d'energia lliure de Gibbs (J).</li>
+                 <li>$\Delta G^o$: Canvi d'energia lliure estàndard de Gibbs (J).</li>
+            </ul>
+            <p>Relació d'espontaneïtat:</p>
+            <ul>
+                <li>$\Delta G < 0 \implies E > 0$: Reacció <strong>espontània</strong> (Pila Galvànica).</li>
+                <li>$\Delta G > 0 \implies E < 0$: Reacció <strong>no espontània</strong> (Requereix Cel·la Electrolítica).</li>
+                <li>$\Delta G = 0 \implies E = 0$: Sistema en <strong>equilibri</strong>.</li>
+            </ul>
+            <h3>Equació de Nernst</h3>
+            <p>Relaciona el potencial de cel·la ($E$) en condicions no estàndard amb el potencial estàndard ($E^o$) i les concentracions/pressions dels reactius i productes (expressades en el quocient de reacció, Q):</p>
+             <div class="math-block">$$E = E^o - \frac{RT}{nF} \ln Q$$</div>
+             <p>On:</p>
+             <ul>
+                 <li>$R$: Constant dels gasos ideals ($8.314 \, J/(mol·K)$).</li>
+                 <li>$T$: Temperatura absoluta (K).</li>
+                 <li>$Q$: Quocient de reacció. Per a $aA + bB \rightleftharpoons cC + dD$, $Q = \frac{{\{C\}}^c {\{D\}}^d}{{\{A\}}^a {\{B\}}^b}$ (activitats, aproximades per concentracions [M] per soluts i pressions parcials [atm] per gasos; sòlids/líquids purs tenen activitat 1).</li>
+             </ul>
+             <p>A $25^\circ C$ (298.15 K), l'equació es pot simplificar:</p>
+             <div class="math-block">$$E = E^o - \frac{0.0592}{n} \log_{10} Q$$</div>
+             <p>L'equació de Nernst mostra com el potencial de la cel·la canvia a mesura que les concentracions dels reactius disminueixen i les dels productes augmenten durant el funcionament de la pila, apropant-se a l'equilibri ($E=0$).</p>
+
+             <div class="interactive-block mt-8">
+                 <h4 class="text-center !mt-0 !border-b-0">Calculadora d'Equació de Nernst</h4>
+                 <p class="text-center text-sm text-gray-600 mb-4">Calcula el potencial de cel·la (E) en condicions no estàndard.</p>
+                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                     <div>
+                         <label for="nernst-e0">Potencial Estàndard ($E^o$, V):</label>
+                         <input type="number" id="nernst-e0" step="0.01" value="1.10">
+                     </div>
+                     <div>
+                         <label for="nernst-n">Electrons transferits (n):</label>
+                         <input type="number" id="nernst-n" step="1" min="1" value="2">
+                     </div>
+                     <div>
+                         <label for="nernst-temp">Temperatura (K):</label>
+                         <input type="number" id="nernst-temp" step="1" value="298.15">
+                     </div>
+                     <div>
+                         <label for="nernst-q">Quocient de Reacció (Q):</label>
+                         <input type="number" id="nernst-q" step="0.01" min="0.0001" value="0.1">
+                     </div>
+                 </div>
+                 <div class="text-center mb-4">
+                     <button onclick="calculateNernst()">Calcula E</button>
+                 </div>
+                 <div id="nernst-output" class="output-box min-h-[3em]"></div>
+             </div>
+        </section>
+
+        <section id="tipus-piles" class="mb-16 p-8 rounded-lg shadow-lg section-bg-white">
+             <h2 >Tipus de Piles i Bateries</h2>
+             <p>Explorem alguns exemples clàssics i comercials:</p>
+             <h3 >Pila Daniell</h3>
+             <p>La pila clàssica Zn/Cu, fonamental per entendre els principis bàsics. $E^o = 1.10$ V.</p>
+             <div class="math-block">Ànode (Oxidació): $Zn(s) \rightarrow Zn^{+2}(aq) + 2e^-$ <br> Càtode (Reducció): $Cu^{+2}(aq) + 2e^- \rightarrow Cu(s)$ <br> Global: $Zn(s) + Cu^{+2}(aq) \rightarrow Zn^{+2}(aq) + Cu(s)$</div>
+              <div class="flex justify-center my-4"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8c/Galvanic_cell_with_salt_bridge.svg/500px-Galvanic_cell_with_salt_bridge.svg.png" alt="[Imatge d'Esquema Pila Daniell]" class="rounded shadow-md max-w-md w-full"></div>
+
+             <h3 >Pila de Concentració</h3>
+             <p>Utilitza el mateix parell redox en ambdues semicel·les, però amb diferents concentracions. La diferència de concentració crea un petit potencial ($E^o = 0$). El flux tendeix a igualar les concentracions.</p>
+             <div class="math-block">Ex: $Cu(s) | Cu^{+2}(0.025M) || Cu^{+2}(1.50M) | Cu(s)$ <br> $E = -\frac{0.0592}{2} \log \frac{[Cu^{+2}]_{diluit}}{[Cu^{+2}]_{concentrat}}$</div>
+             <div class="flex justify-center my-4"><img src="https://chem.libretexts.org/@api/deki/files/11600/concentrationcell.gif?revision=1" alt="[Imatge d'Esquema Pila Concentració]" class="rounded shadow-md max-w-md w-full"></div>
+
+             <h3 >Piles Comercials (Primàries - No recarregables)</h3>
+             <ul>
+                 <li><strong>Pila Leclanché (Pila seca Zn-C):</strong> Històricament important. Ànode de Zn, càtode de grafit envoltat de $MnO_2$ i pasta electrolítica de $NH_4Cl$ i $ZnCl_2$. $E \approx 1.5$ V. Problema: producció de $NH_3$ gasós pot augmentar resistència interna.
+                      <div class="math-block">Ànode: $Zn(s) \rightarrow Zn^{+2}(aq) + 2e^-$ <br> Càtode: $2MnO_2(s) + 2NH_4^+(aq) + 2e^- \rightarrow Mn_2O_3(s) + 2NH_3(aq) + H_2O(l)$</div>
+                 </li>
+                 <li><strong>Pila Alcalina:</strong> Millora de la Leclanché. Utilitza KOH com a electròlit en lloc de $NH_4Cl$. Més estable i duradora. $E \approx 1.5$ V.
+                      <div class="math-block">Ànode: $Zn(s) + 2OH^-(aq) \rightarrow ZnO(s) + H_2O(l) + 2e^-$ <br> Càtode: $2MnO_2(s) + H_2O(l) + 2e^- \rightarrow Mn_2O_3(s) + 2OH^-(aq)$</div>
+                 </li>
+                  <li><strong>Pila de Botó (Mercuri o Argent):</strong> Compactes, voltatge molt constant. Ex: Pila de Mercuri ($E \approx 1.35$ V).
+                      <div class="math-block">Ànode: $Zn(Hg)(s) + 2OH^-(aq) \rightarrow ZnO(s) + H_2O(l) + 2e^-$ <br> Càtode: $HgO(s) + H_2O(l) + 2e^- \rightarrow Hg(l) + 2OH^-(aq)$ <br> Global: $Zn(Hg)(s) + HgO(s) \rightarrow ZnO(s) + Hg(l)$</div>
+                  </li>
+             </ul>
+             <h3 >Bateries (Secundàries - Recarregables)</h3>
+             <ul>
+                 <li><strong>Bateria de Plom-Àcid (Acumulador de cotxe):</strong> Molt comuna. Consta de cel·les en sèrie (cada cel·la ~2V). Ànode de Pb, càtode de $PbO_2$, electròlit $H_2SO_4$. Reversible.
+                     <div class="math-block">Descàrrega (Global): $Pb(s) + PbO_2(s) + 2H_2SO_4(aq) \rightarrow 2PbSO_4(s) + 2H_2O(l)$ <br> Càrrega (Global): $2PbSO_4(s) + 2H_2O(l) \rightarrow Pb(s) + PbO_2(s) + 2H_2SO_4(aq)$</div>
+                 </li>
+                  <li><i>Altres bateries recarregables importants (Ni-Cd, Ni-MH, Li-ion) tenen principis electroquímics similars però amb materials i reaccions diferents.</i></li>
+             </ul>
+        </section>
+
+        <section id="celles-electrolitiques" class="mb-16 p-8 rounded-lg shadow-lg section-bg-light">
+            <h2 >Cel·les Electrolítiques i Electròlisi</h2>
+            <p>En una cel·la electrolítica, s'aplica un corrent elèctric extern per forçar una reacció REDOX no espontània ($\Delta G > 0$, $E_{cel·la} < 0$). Aquest procés s'anomena <strong>electròlisi</strong>.</p>
+             <div class="flex justify-center my-4">
+                 <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Electrolysis_of_water_with_indicators.svg/400px-Electrolysis_of_water_with_indicators.svg.png" alt="[Imatge d'Esquema Electròlisi Aigua]" class="rounded shadow-md max-w-sm w-full">
+                 </div>
+            <p>Convenció de signes (important diferenciar de les piles galvàniques):</p>
+            <ul>
+                <li><strong>Ànode:</strong> Lloc de l'oxidació. Connectat al pol <strong>positiu (+)</strong> de la font d'alimentació externa (atrau anions).</li>
+                <li><strong>Càtode:</strong> Lloc de la reducció. Connectat al pol <strong>negatiu (-)</strong> de la font d'alimentació externa (atrau cations).</li>
+                <li><strong>Flux d'electrons:</strong> La font externa "bombeja" electrons cap al càtode (-) i els extreu de l'ànode (+).</li>
+            </ul>
+            <p>L'electròlisi té aplicacions industrials clau com:</p>
+            <ul>
+                <li>Producció de metalls reactius (Na, Al, Mg) a partir de les seves sals foses.</li>
+                <li>Refinament electrolític de metalls (ex: coure).</li>
+                <li>Producció de gasos ($H_2, O_2, Cl_2$).</li>
+                <li>Galvanoplàstia (recobriment de metalls).</li>
+            </ul>
+            <h3>Lleis de Faraday de l'Electròlisi</h3>
+            <p>Quantifiquen la relació entre la quantitat de substància transformada i la quantitat de càrrega elèctrica que passa per la cel·la.</p>
+            <p>La massa ($m$) de substància dipositada o alliberada en un elèctrode és directament proporcional a la càrrega total ($Q$) que ha passat i a la massa molar ($M$) de la substància, i inversament proporcional al nombre d'electrons ($n$) transferits per mol de substància i a la constant de Faraday ($F$).</p>
+            <div class="math-block">$$m = \frac{M \cdot Q}{n \cdot F} = \frac{M \cdot I \cdot t}{n \cdot F}$$</div>
+            On:
+             <ul>
+                <li>$m$: massa (g)</li>
+                <li>$M$: massa molar (g/mol)</li>
+                <li>$Q$: càrrega total (Coulombs, C). $Q = I \cdot t$</li>
+                <li>$I$: intensitat del corrent (Ampers, A = C/s)</li>
+                <li>$t$: temps (segons, s)</li>
+                <li>$n$: nombre d'equivalents (mols d'electrons per mol de substància transformada en la semireacció)</li>
+                <li>$F$: Constant de Faraday ($96485 \, C/mol \, e^-$)</li>
+            </ul>
+
+             <div class="interactive-block mt-8">
+                 <h4 class="text-center !mt-0 !border-b-0">Calculadora de la Llei de Faraday</h4>
+                 <p class="text-center text-sm text-gray-600 mb-4">Calcula la massa dipositada o el temps/corrent necessari.</p>
+                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                     <div>
+                         <label for="faraday-mass">Massa (m, g):</label>
+                         <input type="number" id="faraday-mass" step="any" placeholder="Ex: 2.792">
+                     </div>
+                     <div>
+                         <label for="faraday-molar-mass">Massa Molar (M, g/mol):</label>
+                         <input type="number" id="faraday-molar-mass" step="any" placeholder="Ex: 55.85 (Fe)">
+                     </div>
+                     <div>
+                         <label for="faraday-current">Corrent (I, A):</label>
+                         <input type="number" id="faraday-current" step="any" placeholder="Ex: 2.68">
+                     </div>
+                     <div>
+                         <label for="faraday-time">Temps (t, segons):</label>
+                         <input type="number" id="faraday-time" step="any" placeholder="Ex: 3600 (1 hora)">
+                     </div>
+                     <div>
+                         <label for="faraday-n">Electrons (n, mol e⁻/mol):</label>
+                         <input type="number" id="faraday-n" step="1" min="1" placeholder="Ex: 2 (per Fe2+ -> Fe)">
+                     </div>
+                      <div>
+                         <label for="calculate-what">Què vols calcular?</label>
+                         <select id="calculate-what">
+                             <option value="mass">Massa (m)</option>
+                             <option value="time">Temps (t)</option>
+                             <option value="current">Corrent (I)</option>
+                             <option value="n_val">Electrons (n)</option>
+                         </select>
+                     </div>
+                 </div>
+                 <div class="text-center mb-4">
+                     <button onclick="calculateFaraday()">Calcula</button>
+                 </div>
+                 <div id="faraday-output" class="output-box min-h-[3em]">Introdueix els valors coneguts i selecciona què vols calcular.</div>
+             </div>
+        </section>
+
+        <section id="corrosio" class="mb-16 p-8 rounded-lg shadow-lg section-bg-white">
+            <h2 >Corrosió i Protecció de Metalls</h2>
+            <p>La <strong>corrosió</strong> és el deteriorament d'un metall a causa de reaccions electroquímiques amb el seu entorn, principalment l'oxidació.</p>
+            <h3>Corrosió del Ferro (Rovell)</h3>
+            <p>És un procés electroquímic complex que requereix $O_2$ i $H_2O$. Es pot dividir en etapes:</p>
+            <ol>
+                <li><strong>Formació de la pila:</strong> Zones de la superfície del ferro actuen com a ànode i càtode.
+                    <ul>
+                        <li>Ànode (Oxidació): $Fe(s) \rightarrow Fe^{+2}(aq) + 2e^-$ ($E^o_{ox} = +0.44$ V)</li>
+                        <li>Càtode (Reducció): $O_2(g) + 4H^+(aq) + 4e^- \rightarrow 2H_2O(l)$ ($E^o_{red} = +1.23$ V) (en medi àcid)</li>
+                        <li>Reacció Global Inicial: $2Fe(s) + O_2(g) + 4H^+(aq) \rightarrow 2Fe^{+2}(aq) + 2H_2O(l)$ ($E^o_{pila} = 1.67$ V > 0, Espontània)</li>
+                    </ul>
+                </li>
+                 <li><strong>Oxidació posterior i formació de rovell:</strong> El $Fe^{+2}$ s'oxida a $Fe^{+3}$, que precipita com òxid de ferro hidratat (rovell, $Fe_2O_3 \cdot xH_2O$).
+                     <div class="math-block">$4Fe^{+2}(aq) + O_2(g) + (4+2x)H_2O(l) \rightarrow 2Fe_2O_3 \cdot xH_2O(s) + 8H^+(aq)$ ($E^o \approx +0.46$ V)</div>
+                 </li>
+            </ol>
+            <p>La presència d'electròlits (com sal en aigua de mar o a les carreteres a l'hivern) accelera la corrosió perquè facilita el tancament del circuit iònic.</p>
+            <h3>Protecció contra la Corrosió</h3>
+            <ul>
+                <li><strong>Recobriments:</strong> Pintures, plàstics, o recobriments metàl·lics (ex: galvanitzat amb Zn).</li>
+                <li><strong>Passivació:</strong> Formació d'una capa d'òxid protectora i adherent (ex: $Al_2O_3$ sobre Al, Cr$_2O_3$ sobre acer inoxidable).</li>
+                <li><strong>Protecció Catòdica:</strong>
+                    <ul>
+                        <li><strong>Ànode de Sacrifici:</strong> Connectar el metall a protegir (que actuarà com a càtode) amb un metall més actiu (amb $E^o_{red}$ més negatiu) que s'oxidarà preferentment (actuarà com a ànode de sacrifici). Ex: Blocs de Zn o Mg en bucs de vaixells (Fe) o canonades enterrades. Històricament proposat per Sir Humphry Davy (1823).</li>
+                        <li><strong>Corrent Imprès:</strong> Aplicar un corrent extern per forçar el metall a protegir a actuar com a càtode.</li>
+                    </ul>
+                </li>
+            </ul>
+             <div class="interactive-block mt-8">
+                 <h4 class="text-center !mt-0 !border-b-0">Simulador d'Ànode de Sacrifici</h4>
+                 <p class="text-center text-sm text-gray-600 mb-4">Selecciona dos metalls per veure quin protegirà a l'altre.</p>
+                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                     <div>
+                         <label for="metal-1">Metall 1 (a protegir):</label>
+                         <select id="metal-1" class="metal-selector"></select>
+                     </div>
+                     <div>
+                         <label for="metal-2">Metall 2 (potencial ànode):</label>
+                         <select id="metal-2" class="metal-selector"></select>
+                     </div>
+                 </div>
+                 <div class="text-center mb-4">
+                     <button onclick="simulateSacrificialAnode()">Simula Protecció</button>
+                 </div>
+                 <div id="anode-output" class="output-box min-h-[5em]">Selecciona dos metalls diferents.</div>
+                 <div class="corrosion-container mt-4 hidden" id="corrosion-vis">
+                     <div id="metal-vis-1" class="metal-block rounded-l-md">Metall 1</div>
+                     <div id="corrosion-arrow-vis" class="corrosion-arrow">e⁻ →</div>
+                     <div id="metal-vis-2" class="metal-block rounded-r-md">Metall 2</div>
+                 </div>
+             </div>
+        </section>
+
+    </main>
+     <footer class="mt-16 pt-10 pb-8 border-t border-gray-300 text-sm text-gray-600">
+           <p class="footer-attribution">Màster Class Doctoral | Electroquímica REDOX</p>
+           <p class="footer-attribution">Contingut adaptat de la presentació T5 i principis generals d'electroquímica.</p>
+     </footer>
+
+    <script>
+        function getId(id) { return document.getElementById(id); }
+        function getValue(id) { const el = getId(id); return el ? el.value : null; }
+        function setValue(id, value) { const el = getId(id); if (el) el.value = value; }
+        function setHtml(id, html) { const el = getId(id); if (el) el.innerHTML = html; }
+        function setText(id, text) { const el = getId(id); if (el) el.textContent = text; }
+        function toggleClass(id, className, force) { const el = getId(id); if (el) el.classList.toggle(className, force); }
+
+        function calculateOxidationStates() {
+            const compound = getValue('compound-input').trim();
+            const outputDiv = getId('oxidation-output');
+            let result = `Estat(s) d'oxidació per ${compound}:\n`;
+            if (compound === 'H2SO4') { result += 'H: +1, S: +6, O: -2'; }
+            else if (compound === 'MnO4-') { result += 'Mn: +7, O: -2 (Càrrega total: -1)'; }
+            else if (compound === 'Fe2O3') { result += 'Fe: +3, O: -2'; }
+            else if (compound === 'HNO3') { result += 'H: +1, N: +5, O: -2'; }
+            else if (compound === 'Cu(NO3)2') { result += 'Cu: +2, N: +5, O: -2'; }
+            else if (compound === 'NO2') { result += 'N: +4, O: -2'; }
+            else if (compound === 'H2O') { result += 'H: +1, O: -2'; }
+            else if (compound === 'HI') { result += 'H: +1, I: -1'; }
+            else if (compound === 'H2S') { result += 'H: +1, S: -2'; }
+            else if (compound === 'I2') { result += 'I: 0'; }
+            else if (compound === 'CO') { result += 'C: +2, O: -2'; }
+            else if (compound === 'CO2') { result += 'C: +4, O: -2'; }
+            else if (compound === 'Fe') { result += 'Fe: 0'; }
+            else if (compound === 'Cu') { result += 'Cu: 0'; }
+            else { result = 'Fórmula no reconeguda o massa complexa per a aquesta calculadora simple.'; }
+            setHtml('oxidation-output', result);
+        }
+
+        function toggleSolution(id) { toggleClass(id, 'hidden'); }
+
+        const potentials = {
+            "Li+/Li": -3.05, "K+/K": -2.93, "Ca2+/Ca": -2.87, "Na+/Na": -2.71, "Mg2+/Mg": -2.37, "Al3+/Al": -1.66, "Mn2+/Mn": -1.18, "Zn2+/Zn": -0.76, "Cr3+/Cr": -0.74, "Fe2+/Fe": -0.44, "Cd2+/Cd": -0.40, "Co2+/Co": -0.28, "Ni2+/Ni": -0.25, "Sn2+/Sn": -0.14, "Pb2+/Pb": -0.13, "Fe3+/Fe": -0.04, "2H+/H2": 0.00, "Cu2+/Cu": 0.34, "I2/2I-": 0.54, "Fe3+/Fe2+": 0.77, "Ag+/Ag": 0.80, "Hg2+/Hg": 0.85, "NO3-/NO (àcid)": 0.96, "Br2/2Br-": 1.07, "O2/H2O (àcid)": 1.23, "Cr2O72-/Cr3+ (àcid)": 1.33, "Cl2/2Cl-": 1.36, "MnO4-/Mn2+ (àcid)": 1.51, "Au3+/Au": 1.50, "F2/2F-": 2.87
+        };
+        function populateSelectors() {
+            const selectors = document.querySelectorAll('.potential-selector');
+            const sortedPotentials = Object.entries(potentials).sort(([, a], [, b]) => a - b);
+            selectors.forEach(selector => {
+                selector.innerHTML = '<option value="">Selecciona...</option>';
+                sortedPotentials.forEach(([name, value]) => {
+                    const option = document.createElement('option'); option.value = name; option.textContent = `${name} (${value.toFixed(2)} V)`; selector.appendChild(option);
+                });
+            });
+        }
+        function calculateStandardCell() {
+            const cell1_name = getValue('half-cell-1'); const cell2_name = getValue('half-cell-2');
+            const outputDiv = getId('cell-output'); const diagramDiv = getId('cell-diagram');
+            toggleClass('cell-diagram', 'hidden', true);
+            if (!cell1_name || !cell2_name || cell1_name === cell2_name) { setHtml('cell-output', 'Selecciona dues semicel·les diferents.'); return; }
+            const E1 = potentials[cell1_name]; const E2 = potentials[cell2_name];
+            let cathode_name, anode_name, E_cathode, E_anode;
+            if (E1 > E2) { cathode_name = cell1_name; E_cathode = E1; anode_name = cell2_name; E_anode = E2; }
+            else { cathode_name = cell2_name; E_cathode = E2; anode_name = cell1_name; E_anode = E1; }
+            const E_cell = E_cathode - E_anode;
+            const anode_metal_match = anode_name.match(/\/([A-Za-z0-9]+)$/); const cathode_metal_match = cathode_name.match(/\/([A-Za-z0-9]+)$/);
+            const anode_ion_match = anode_name.match(/^([A-Za-z0-9\+\-]+)\//); const cathode_ion_match = cathode_name.match(/^([A-Za-z0-9\+\-]+)\//);
+            const anode_metal = anode_metal_match ? anode_metal_match[1] : '??'; const cathode_metal = cathode_metal_match ? cathode_metal_match[1] : '??';
+            const anode_ion = anode_ion_match ? anode_ion_match[1] : '??'; const cathode_ion = cathode_ion_match ? cathode_ion_match[1] : '??';
+            let outputHTML = `<strong>Pila Estàndard:</strong><br>Càtode (+): ${cathode_name} ($E^o_{red}$ = ${E_cathode.toFixed(2)} V)<br>Ànode (-): ${anode_name} ($E^o_{red}$ = ${E_anode.toFixed(2)} V)<br><strong>Potencial Estàndard de Pila ($E^o_{pila}$): ${E_cell.toFixed(2)} V</strong><br>Reacció ${E_cell > 0 ? '<strong class="text-green-600">ESPONTÀNIA</strong>' : '<strong class="text-red-600">NO ESPONTÀNIA</strong>'}`;
+            setHtml('cell-output', outputHTML);
+            if (E_cell > 0) {
+                 setText('cathode-label', `Càtode (+): ${cathode_metal}`); setText('anode-label', `Ànode (-): ${anode_metal}`);
+                 setHtml('cathode-metal', cathode_metal === 'H2' ? 'Pt/H₂' : cathode_metal); setHtml('anode-metal', anode_metal === 'H2' ? 'Pt/H₂' : anode_metal);
+                 setHtml('cathode-solution', `${cathode_ion}(aq)`); setHtml('anode-solution', `${anode_ion}(aq)`);
+                 setText('cathode-reaction', `${cathode_ion}(aq) + ne⁻ → ${cathode_metal}(s/g) (Red.)`); setText('anode-reaction', `${anode_metal}(s/g) → ${anode_ion}(aq) + ne⁻ (Ox.)`);
+                 setText('cell-voltage', `${E_cell.toFixed(2)} V`); toggleClass('cell-diagram', 'hidden', false);
+                 const electronFlow = getId('electron-flow-vis'); electronFlow.style.animation = 'none'; void electronFlow.offsetWidth; electronFlow.style.animation = 'flow 2s linear infinite';
+            }
+        }
+
+        function calculateNernst() {
+            const E0 = parseFloat(getValue('nernst-e0')); const n = parseInt(getValue('nernst-n')); const T = parseFloat(getValue('nernst-temp')); const Q = parseFloat(getValue('nernst-q'));
+            const outputDiv = getId('nernst-output');
+            if (isNaN(E0) || isNaN(n) || isNaN(T) || isNaN(Q) || n <= 0 || T <= 0 || Q <= 0) { setHtml('nernst-output', 'Entrada invàlida.'); return; }
+            const R = 8.314; const F = 96485; const E = E0 - (R * T) / (n * F) * Math.log(Q);
+            setHtml('nernst-output', `Potencial de Cel·la (E) = <strong>${E.toFixed(4)} V</strong>`);
+        }
+
+        function calculateFaraday() {
+            const m = parseFloat(getValue('faraday-mass')); const M = parseFloat(getValue('faraday-molar-mass')); const I = parseFloat(getValue('faraday-current')); const t = parseFloat(getValue('faraday-time')); const n_val = parseInt(getValue('faraday-n'));
+            const calculateWhat = getValue('calculate-what'); const outputDiv = getId('faraday-output'); const F = 96485; let result = '';
+            try {
+                if (calculateWhat === 'mass') {
+                    if (isNaN(M) || isNaN(I) || isNaN(t) || isNaN(n_val) || n_val <= 0) throw new Error("Valors M, I, t, n necessaris.");
+                    const calculated_m = (M * I * t) / (n_val * F); result = `Massa dipositada (m) = <strong>${calculated_m.toFixed(4)} g</strong>`;
+                } else if (calculateWhat === 'time') {
+                     if (isNaN(m) || isNaN(M) || isNaN(I) || isNaN(n_val) || n_val <= 0 || M <= 0 || I == 0) throw new Error("Valors m, M, I, n necessaris (I≠0).");
+                    const calculated_t = (m * n_val * F) / (M * I); result = `Temps necessari (t) = <strong>${calculated_t.toFixed(2)} s</strong>`;
+                } else if (calculateWhat === 'current') {
+                     if (isNaN(m) || isNaN(M) || isNaN(t) || isNaN(n_val) || n_val <= 0 || M <= 0 || t == 0) throw new Error("Valors m, M, t, n necessaris (t≠0).");
+                    const calculated_I = (m * n_val * F) / (M * t); result = `Corrent necessari (I) = <strong>${calculated_I.toFixed(4)} A</strong>`;
+                } else if (calculateWhat === 'n_val') {
+                     if (isNaN(m) || isNaN(M) || isNaN(I) || isNaN(t) || M <= 0 || m == 0 || (I*t) == 0) throw new Error("Valors m, M, I, t necessaris (m, M, I*t ≠ 0).");
+                     const calculated_n = (M * I * t) / (m * F); result = `Electrons transferits (n) = <strong>${calculated_n.toFixed(2)} mol e⁻/mol</strong>`;
+                }
+                setHtml('faraday-output', result);
+            } catch (e) { setHtml('faraday-output', `Error: ${e.message}`); }
+        }
+
+         const sacrificialPotentials = { "Mg": -2.37, "Al": -1.66, "Zn": -0.76, "Fe": -0.44, "Pb": -0.13, "Cu": 0.34, "Ag": 0.80 };
+        function populateMetalSelectors() {
+            const selectors = document.querySelectorAll('.metal-selector');
+            selectors.forEach(selector => {
+                selector.innerHTML = '<option value="">Selecciona...</option>';
+                for (const metal in sacrificialPotentials) { const option = document.createElement('option'); option.value = metal; option.textContent = `${metal} (E°=${sacrificialPotentials[metal]} V)`; selector.appendChild(option); }
+            });
+        }
+        function simulateSacrificialAnode() {
+            const metal1_name = getValue('metal-1'); const metal2_name = getValue('metal-2');
+            const outputDiv = getId('anode-output'); const visDiv = getId('corrosion-vis'); const arrowVis = getId('corrosion-arrow-vis');
+            toggleClass('corrosion-vis', 'hidden', true);
+            if (!metal1_name || !metal2_name || metal1_name === metal2_name) { setHtml('anode-output', 'Selecciona dos metalls diferents.'); return; }
+            const E1 = sacrificialPotentials[metal1_name]; const E2 = sacrificialPotentials[metal2_name];
+            let protectedMetal, sacrificialAnode;
+            if (E1 > E2) { protectedMetal = metal1_name; sacrificialAnode = metal2_name; setText('metal-vis-1', `Protegit (${metal1_name})`); setText('metal-vis-2', `Ànode (${metal2_name})`); setHtml('corrosion-arrow-vis', 'e⁻ →'); getId('metal-vis-1').style.backgroundColor = '#10b981'; getId('metal-vis-2').style.backgroundColor = '#ef4444'; }
+            else { protectedMetal = metal2_name; sacrificialAnode = metal1_name; setText('metal-vis-1', `Ànode (${metal1_name})`); setText('metal-vis-2', `Protegit (${metal2_name})`); setHtml('corrosion-arrow-vis', '← e⁻'); getId('metal-vis-1').style.backgroundColor = '#ef4444'; getId('metal-vis-2').style.backgroundColor = '#10b981'; }
+            setHtml('anode-output', `El metall <strong>${sacrificialAnode}</strong> (E°=${sacrificialPotentials[sacrificialAnode]} V) actuarà com a ànode de sacrifici, oxidant-se preferentment i protegint el metall <strong>${protectedMetal}</strong> (E°=${sacrificialPotentials[protectedMetal]} V).`);
+            toggleClass('corrosion-vis', 'hidden', false);
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            populateSelectors();
+            populateMetalSelectors();
+            if (typeof MathJax !== 'undefined' && MathJax.startup) { MathJax.startup.promise.then(() => {}).catch(err => console.error('MathJax startup error:', err)); }
+        });
+    </script>
+</body>
+</html>

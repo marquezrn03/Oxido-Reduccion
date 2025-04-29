@@ -659,26 +659,6 @@
 
     setHtml('oxidation-output', result);
 }
-
-// Funcions auxiliars simulades per completesa (reemplaça amb les teves reals)
-function getValue(id) {
-    // Implementació per obtenir el valor d'un element input amb id donat
-    // Exemple: return document.getElementById(id).value;
-    if (id === 'compound-input') return "H2SO4"; // Valor d'exemple per proves
-    return "";
-}
-
-function getId(id) {
-    // Implementació per obtenir una referència a un element amb id donat
-    // Exemple: return document.getElementById(id);
-    return { id: id }; // Objecte simulat
-}
-
-function setHtml(id, content) {
-    // Implementació per establir el contingut HTML d'un element amb id donat
-    // Exemple: document.getElementById(id).innerHTML = content;
-    console.log(`Setting HTML for ${id}: ${content}`); // Log per proves
-}
         function toggleSolution(id) { toggleClass(id, 'hidden'); }
 
         const potentials = {

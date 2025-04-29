@@ -479,28 +479,206 @@
         function setText(id, text) { const el = getId(id); if (el) el.textContent = text; }
         function toggleClass(id, className, force) { const el = getId(id); if (el) el.classList.toggle(className, force); }
 
-        function calculateOxidationStates() {
-            const compound = getValue('compound-input').trim();
-            const outputDiv = getId('oxidation-output');
-            let result = `Estat(s) d'oxidació per ${compound}:\n`;
-            if (compound === 'H2SO4') { result += 'H: +1, S: +6, O: -2'; }
-            else if (compound === 'MnO4-') { result += 'Mn: +7, O: -2 (Càrrega total: -1)'; }
-            else if (compound === 'Fe2O3') { result += 'Fe: +3, O: -2'; }
-            else if (compound === 'HNO3') { result += 'H: +1, N: +5, O: -2'; }
-            else if (compound === 'Cu(NO3)2') { result += 'Cu: +2, N: +5, O: -2'; }
-            else if (compound === 'NO2') { result += 'N: +4, O: -2'; }
-            else if (compound === 'H2O') { result += 'H: +1, O: -2'; }
-            else if (compound === 'HI') { result += 'H: +1, I: -1'; }
-            else if (compound === 'H2S') { result += 'H: +1, S: -2'; }
-            else if (compound === 'I2') { result += 'I: 0'; }
-            else if (compound === 'CO') { result += 'C: +2, O: -2'; }
-            else if (compound === 'CO2') { result += 'C: +4, O: -2'; }
-            else if (compound === 'Fe') { result += 'Fe: 0'; }
-            else if (compound === 'Cu') { result += 'Cu: 0'; }
-            else { result = 'Fórmula no reconeguda o massa complexa per a aquesta calculadora simple.'; }
-            setHtml('oxidation-output', result);
-        }
+       function calculateOxidationStates() {
+    const compound = getValue('compound-input').trim().toUpperCase(); // Convertir a majúscules per consistència
+    const outputDiv = getId('oxidation-output');
+    let result = `Estat(s) d'oxidació per ${compound}:\n`;
 
+    if (compound === 'H2SO4') { result += 'H: +1, S: +6, O: -2'; } // Original
+    else if (compound === 'MNO4-') { result += 'Mn: +7, O: -2 (Càrrega total: -1)'; } // Original (Nota: Assegura't que l'input pugui manejar ions)
+    else if (compound === 'FE2O3') { result += 'Fe: +3, O: -2'; } // Original
+    else if (compound === 'HNO3') { result += 'H: +1, N: +5, O: -2'; } // Original
+    else if (compound === 'CU(NO3)2') { result += 'Cu: +2, N: +5, O: -2'; } // Original
+    else if (compound === 'NO2') { result += 'N: +4, O: -2'; } // Original
+    else if (compound === 'H2O') { result += 'H: +1, O: -2'; } // Original
+    else if (compound === 'HI') { result += 'H: +1, I: -1'; } // Original
+    else if (compound === 'H2S') { result += 'H: +1, S: -2'; } // Original
+    else if (compound === 'I2') { result += 'I: 0'; } // Original
+    else if (compound === 'CO') { result += 'C: +2, O: -2'; } // Original
+    else if (compound === 'CO2') { result += 'C: +4, O: -2'; } // Original
+    else if (compound === 'FE') { result += 'Fe: 0'; } // Original
+    else if (compound === 'CU') { result += 'Cu: 0'; } // Original
+    // --- Nous compostos afegits ---
+    else if (compound === 'HCL') { result += 'H: +1, Cl: -1'; }
+    else if (compound === 'HBR') { result += 'H: +1, Br: -1'; }
+    else if (compound === 'HF') { result += 'H: +1, F: -1'; }
+    else if (compound === 'H2SE') { result += 'H: +1, Se: -2'; }
+    else if (compound === 'H2TE') { result += 'H: +1, Te: -2'; }
+    else if (compound === 'NH3') { result += 'N: -3, H: +1'; }
+    else if (compound === 'PH3') { result += 'P: -3, H: +1'; }
+    else if (compound === 'CH4') { result += 'C: -4, H: +1'; }
+    else if (compound === 'NACL') { result += 'Na: +1, Cl: -1'; }
+    else if (compound === 'KCL') { result += 'K: +1, Cl: -1'; }
+    else if (compound === 'MGO') { result += 'Mg: +2, O: -2'; }
+    else if (compound === 'CAO') { result += 'Ca: +2, O: -2'; }
+    else if (compound === 'NA2O') { result += 'Na: +1, O: -2'; }
+    else if (compound === 'K2O') { result += 'K: +1, O: -2'; }
+    else if (compound === 'AL2O3') { result += 'Al: +3, O: -2'; }
+    else if (compound === 'FE2O3') { result += 'Fe: +3, O: -2'; } // Repetit de l'original
+    else if (compound === 'FEO') { result += 'Fe: +2, O: -2'; }
+    else if (compound === 'CU2O') { result += 'Cu: +1, O: -2'; }
+    else if (compound === 'CUO') { result += 'Cu: +2, O: -2'; }
+    else if (compound === 'ZNO') { result += 'Zn: +2, O: -2'; }
+    else if (compound === 'SIO2') { result += 'Si: +4, O: -2'; }
+    else if (compound === 'PBO') { result += 'Pb: +2, O: -2'; }
+    else if (compound === 'PBO2') { result += 'Pb: +4, O: -2'; }
+    else if (compound === 'SNO') { result += 'Sn: +2, O: -2'; }
+    else if (compound === 'SNO2') { result += 'Sn: +4, O: -2'; }
+    else if (compound === 'SO2') { result += 'S: +4, O: -2'; }
+    else if (compound === 'SO3') { result += 'S: +6, O: -2'; }
+    else if (compound === 'N2O') { result += 'N: +1, O: -2'; }
+    else if (compound === 'NO') { result += 'N: +2, O: -2'; }
+    else if (compound === 'N2O3') { result += 'N: +3, O: -2'; }
+    else if (compound === 'N2O4') { result += 'N: +4, O: -2'; }
+    else if (compound === 'N2O5') { result += 'N: +5, O: -2'; }
+    else if (compound === 'CL2O') { result += 'Cl: +1, O: -2'; }
+    else if (compound === 'CLO2') { result += 'Cl: +4, O: -2'; }
+    else if (compound === 'CL2O7') { result += 'Cl: +7, O: -2'; }
+    else if (compound === 'P4O10') { result += 'P: +5, O: -2'; } // (Forma comuna P2O5)
+    else if (compound === 'P2O5') { result += 'P: +5, O: -2'; }
+    else if (compound === 'P4O6') { result += 'P: +3, O: -2'; } // (Forma comuna P2O3)
+    else if (compound === 'P2O3') { result += 'P: +3, O: -2'; }
+    else if (compound === 'H2SO3') { result += 'H: +1, S: +4, O: -2'; }
+    else if (compound === 'H2CO3') { result += 'H: +1, C: +4, O: -2'; }
+    else if (compound === 'H3PO4') { result += 'H: +1, P: +5, O: -2'; }
+    else if (compound === 'H3PO3') { result += 'H: +1, P: +3, O: -2'; }
+    else if (compound === 'HCLO') { result += 'H: +1, Cl: +1, O: -2'; }
+    else if (compound === 'HCLO2') { result += 'H: +1, Cl: +3, O: -2'; }
+    else if (compound === 'HCLO3') { result += 'H: +1, Cl: +5, O: -2'; }
+    else if (compound === 'HCLO4') { result += 'H: +1, Cl: +7, O: -2'; }
+    else if (compound === 'HBR') { result += 'H: +1, Br: -1'; }
+    else if (compound === 'HBRO') { result += 'H: +1, Br: +1, O: -2'; }
+    else if (compound === 'HBRO3') { result += 'H: +1, Br: +5, O: -2'; }
+    else if (compound === 'HIO3') { result += 'H: +1, I: +5, O: -2'; }
+    else if (compound === 'HIO4') { result += 'H: +1, I: +7, O: -2'; }
+    else if (compound === 'HCN') { result += 'H: +1, C: +2, N: -3'; }
+    else if (compound === 'NAOH') { result += 'Na: +1, O: -2, H: +1'; }
+    else if (compound === 'KOH') { result += 'K: +1, O: -2, H: +1'; }
+    else if (compound === 'CA(OH)2') { result += 'Ca: +2, O: -2, H: +1'; }
+    else if (compound === 'MG(OH)2') { result += 'Mg: +2, O: -2, H: +1'; }
+    else if (compound === 'AL(OH)3') { result += 'Al: +3, O: -2, H: +1'; }
+    else if (compound === 'FE(OH)2') { result += 'Fe: +2, O: -2, H: +1'; }
+    else if (compound === 'FE(OH)3') { result += 'Fe: +3, O: -2, H: +1'; }
+    else if (compound === 'CU(OH)2') { result += 'Cu: +2, O: -2, H: +1'; }
+    else if (compound === 'ZN(OH)2') { result += 'Zn: +2, O: -2, H: +1'; }
+    else if (compound === 'NA2SO4') { result += 'Na: +1, S: +6, O: -2'; }
+    else if (compound === 'K2SO4') { result += 'K: +1, S: +6, O: -2'; }
+    else if (compound === 'MGSO4') { result += 'Mg: +2, S: +6, O: -2'; }
+    else if (compound === 'CASO4') { result += 'Ca: +2, S: +6, O: -2'; }
+    else if (compound === 'AL2(SO4)3') { result += 'Al: +3, S: +6, O: -2'; }
+    else if (compound === 'FESO4') { result += 'Fe: +2, S: +6, O: -2'; }
+    else if (compound === 'FE2(SO4)3') { result += 'Fe: +3, S: +6, O: -2'; }
+    else if (compound === 'CUSO4') { result += 'Cu: +2, S: +6, O: -2'; }
+    else if (compound === 'ZNSO4') { result += 'Zn: +2, S: +6, O: -2'; }
+    else if (compound === 'NANO3') { result += 'Na: +1, N: +5, O: -2'; }
+    else if (compound === 'KNO3') { result += 'K: +1, N: +5, O: -2'; }
+    else if (compound === 'MG(NO3)2') { result += 'Mg: +2, N: +5, O: -2'; }
+    else if (compound === 'CA(NO3)2') { result += 'Ca: +2, N: +5, O: -2'; }
+    else if (compound === 'AL(NO3)3') { result += 'Al: +3, N: +5, O: -2'; }
+    else if (compound === 'PB(NO3)2') { result += 'Pb: +2, N: +5, O: -2'; }
+    else if (compound === 'AGNO3') { result += 'Ag: +1, N: +5, O: -2'; }
+    else if (compound === 'NA2CO3') { result += 'Na: +1, C: +4, O: -2'; }
+    else if (compound === 'K2CO3') { result += 'K: +1, C: +4, O: -2'; }
+    else if (compound === 'CACO3') { result += 'Ca: +2, C: +4, O: -2'; }
+    else if (compound === 'MGCO3') { result += 'Mg: +2, C: +4, O: -2'; }
+    else if (compound === 'NA3PO4') { result += 'Na: +1, P: +5, O: -2'; }
+    else if (compound === 'K3PO4') { result += 'K: +1, P: +5, O: -2'; }
+    else if (compound === 'CA3(PO4)2') { result += 'Ca: +2, P: +5, O: -2'; }
+    else if (compound === 'MG3(PO4)2') { result += 'Mg: +2, P: +5, O: -2'; }
+    else if (compound === 'NACL') { result += 'Na: +1, Cl: -1'; }
+    else if (compound === 'MGCL2') { result += 'Mg: +2, Cl: -1'; }
+    else if (compound === 'CACL2') { result += 'Ca: +2, Cl: -1'; }
+    else if (compound === 'ALCL3') { result += 'Al: +3, Cl: -1'; }
+    else if (compound === 'FECL2') { result += 'Fe: +2, Cl: -1'; }
+    else if (compound === 'FECL3') { result += 'Fe: +3, Cl: -1'; }
+    else if (compound === 'ZNCL2') { result += 'Zn: +2, Cl: -1'; }
+    else if (compound === 'NABR') { result += 'Na: +1, Br: -1'; }
+    else if (compound === 'KBR') { result += 'K: +1, Br: -1'; }
+    else if (compound === 'CABR2') { result += 'Ca: +2, Br: -1'; }
+    else if (compound === 'NAI') { result += 'Na: +1, I: -1'; }
+    else if (compound === 'KI') { result += 'K: +1, I: -1'; }
+    else if (compound === 'NAF') { result += 'Na: +1, F: -1'; }
+    else if (compound === 'CAF2') { result += 'Ca: +2, F: -1'; }
+    else if (compound === 'NA2S') { result += 'Na: +1, S: -2'; }
+    else if (compound === 'K2S') { result += 'K: +1, S: -2'; }
+    else if (compound === 'CAS') { result += 'Ca: +2, S: -2'; }
+    else if (compound === 'FES') { result += 'Fe: +2, S: -2'; }
+    else if (compound === 'FE2S3') { result += 'Fe: +3, S: -2'; }
+    else if (compound === 'CUS') { result += 'Cu: +2, S: -2'; }
+    else if (compound === 'CU2S') { result += 'Cu: +1, S: -2'; }
+    else if (compound === 'AG2S') { result += 'Ag: +1, S: -2'; }
+    else if (compound === 'ZN S') { result += 'Zn: +2, S: -2'; }
+    else if (compound === 'H2O2') { result += 'H: +1, O: -1'; } // Peròxid
+    else if (compound === 'NA2O2') { result += 'Na: +1, O: -1'; } // Peròxid
+    else if (compound === 'KCLO3') { result += 'K: +1, Cl: +5, O: -2'; }
+    else if (compound === 'KCLO4') { result += 'K: +1, Cl: +7, O: -2'; }
+    else if (compound === 'KMnO4') { result += 'K: +1, Mn: +7, O: -2'; }
+    else if (compound === 'K2CR2O7') { result += 'K: +1, Cr: +6, O: -2'; }
+    else if (compound === 'K2CRO4') { result += 'K: +1, Cr: +6, O: -2'; }
+    else if (compound === 'NH4CL') { result += 'N: -3, H: +1, Cl: -1'; }
+    else if (compound === '(NH4)2SO4') { result += 'N: -3, H: +1, S: +6, O: -2'; }
+    else if (compound === 'NAHCO3') { result += 'Na: +1, H: +1, C: +4, O: -2'; }
+    else if (compound === 'CA(HCO3)2') { result += 'Ca: +2, H: +1, C: +4, O: -2'; }
+    else if (compound === 'KHSO4') { result += 'K: +1, H: +1, S: +6, O: -2'; }
+    else if (compound === 'LIH') { result += 'Li: +1, H: -1'; } // Hidrur
+    else if (compound === 'NAH') { result += 'Na: +1, H: -1'; } // Hidrur
+    else if (compound === 'CAH2') { result += 'Ca: +2, H: -1'; } // Hidrur
+    else if (compound === 'OF2') { result += 'O: +2, F: -1'; }
+    // --- Elements purs ---
+    else if (compound === 'H2') { result += 'H: 0'; }
+    else if (compound === 'O2') { result += 'O: 0'; }
+    else if (compound === 'N2') { result += 'N: 0'; }
+    else if (compound === 'CL2') { result += 'Cl: 0'; }
+    else if (compound === 'F2') { result += 'F: 0'; }
+    else if (compound === 'BR2') { result += 'Br: 0'; }
+    else if (compound === 'S8') { result += 'S: 0'; }
+    else if (compound === 'P4') { result += 'P: 0'; }
+    else if (compound === 'NA') { result += 'Na: 0'; }
+    else if (compound === 'K') { result += 'K: 0'; }
+    else if (compound === 'MG') { result += 'Mg: 0'; }
+    else if (compound === 'CA') { result += 'Ca: 0'; }
+    else if (compound === 'AL') { result += 'Al: 0'; }
+    else if (compound === 'ZN') { result += 'Zn: 0'; }
+    else if (compound === 'AG') { result += 'Ag: 0'; }
+    else if (compound === 'AU') { result += 'Au: 0'; }
+    else if (compound === 'C') { result += 'C: 0'; }
+    else if (compound === 'SI') { result += 'Si: 0'; }
+    // --- Ions comuns (requereix adaptar la funció per manejar càrregues) ---
+    // Caldria modificar la lògica per acceptar formules com 'SO4^2-' o 'NH4+'
+    // Aquests són exemples de com es podrien mostrar si la funció es modifica:
+    // else if (compound === 'OH-') { result += 'O: -2, H: +1 (Càrrega total: -1)'; }
+    // else if (compound === 'CN-') { result += 'C: +2, N: -3 (Càrrega total: -1)'; }
+    // else if (compound === 'SO4^2-') { result += 'S: +6, O: -2 (Càrrega total: -2)'; }
+    // else if (compound === 'NO3-') { result += 'N: +5, O: -2 (Càrrega total: -1)'; }
+    // else if (compound === 'CO3^2-') { result += 'C: +4, O: -2 (Càrrega total: -2)'; }
+    // else if (compound === 'PO4^3-') { result += 'P: +5, O: -2 (Càrrega total: -3)'; }
+    // else if (compound === 'NH4+') { result += 'N: -3, H: +1 (Càrrega total: +1)'; }
+    // else if (compound === 'CR2O7^2-') { result += 'Cr: +6, O: -2 (Càrrega total: -2)'; }
+    // else if (compound === 'CRO4^2-') { result += 'Cr: +6, O: -2 (Càrrega total: -2)'; }
+    else { result = 'Fórmula no reconeguda o massa complexa per a aquesta calculadora simple.'; }
+
+    setHtml('oxidation-output', result);
+}
+
+// Funcions auxiliars simulades per completesa (reemplaça amb les teves reals)
+function getValue(id) {
+    // Implementació per obtenir el valor d'un element input amb id donat
+    // Exemple: return document.getElementById(id).value;
+    if (id === 'compound-input') return "H2SO4"; // Valor d'exemple per proves
+    return "";
+}
+
+function getId(id) {
+    // Implementació per obtenir una referència a un element amb id donat
+    // Exemple: return document.getElementById(id);
+    return { id: id }; // Objecte simulat
+}
+
+function setHtml(id, content) {
+    // Implementació per establir el contingut HTML d'un element amb id donat
+    // Exemple: document.getElementById(id).innerHTML = content;
+    console.log(`Setting HTML for ${id}: ${content}`); // Log per proves
+}
         function toggleSolution(id) { toggleClass(id, 'hidden'); }
 
         const potentials = {

@@ -738,14 +738,14 @@
             });
         }
         function simulateSacrificialAnode() {
-            const metal1_name = getValue('metal-1'); const metal2_name = getValue('metal-2');
+            const metal1_name = getValue('metal-1'); const metal2_name = getValue('metal-2'); const arrowVis = getId('corrosion-arrow-vis');
             const outputDiv = getId('anode-output'); const visDiv = getId('corrosion-vis'); 
             toggleClass('corrosion-vis', 'hidden', true);
             if (!metal1_name || !metal2_name || metal1_name === metal2_name) { setHtml('anode-output', 'Selecciona dos metalls diferents.'); return; }
             const E1 = sacrificialPotentials[metal1_name]; const E2 = sacrificialPotentials[metal2_name];
             let protectedMetal, sacrificialAnode;
-            if (E1 > E2) { protectedMetal = metal1_name; sacrificialAnode = metal2_name; setText('metal-vis-1', `Protegit (${metal1_name})`); setText('metal-vis-2', `Ànode (${metal2_name})`); setHtml('corrosion-arrow-vis', 'e⁻ →'); getId('metal-vis-1').style.backgroundColor = '#10b981'; getId('metal-vis-2').style.backgroundColor = '#ef4444'; }
-            else { protectedMetal = metal2_name; sacrificialAnode = metal1_name; setText('metal-vis-1', `Ànode (${metal1_name})`); setText('metal-vis-2', `Protegit (${metal2_name})`); setHtml('corrosion-arrow-vis', '← e⁻'); getId('metal-vis-1').style.backgroundColor = '#ef4444'; getId('metal-vis-2').style.backgroundColor = '#10b981'; }
+            if (E1 > E2) { protectedMetal = metal1_name; sacrificialAnode = metal2_name; setText('metal-vis-1', `Protegit (${metal1_name})`); setText('metal-vis-2', `Ànode (${metal2_name})`); setHtml('corrosion-arrow-vis', 'e⁻ ←'); getId('metal-vis-1').style.backgroundColor = '#10b981'; getId('metal-vis-2').style.backgroundColor = '#ef4444'; }
+            else { protectedMetal = metal2_name; sacrificialAnode = metal1_name; setText('metal-vis-1', `Ànode (${metal1_name})`); setText('metal-vis-2', `Protegit (${metal2_name})`); setHtml('corrosion-arrow-vis', '→ e⁻'); getId('metal-vis-1').style.backgroundColor = '#ef4444'; getId('metal-vis-2').style.backgroundColor = '#10b981'; }
             setHtml('anode-output', `El metall <strong>${sacrificialAnode}</strong> (E°=${sacrificialPotentials[sacrificialAnode]} V) actuarà com a ànode de sacrifici, oxidant-se preferentment i protegint el metall <strong>${protectedMetal}</strong> (E°=${sacrificialPotentials[protectedMetal]} V).`);
             toggleClass('corrosion-vis', 'hidden', false);
         }

@@ -739,7 +739,7 @@
         }
         function simulateSacrificialAnode() {
             const metal1_name = getValue('metal-1'); const metal2_name = getValue('metal-2');
-            const outputDiv = getId('anode-output'); const visDiv = getId('corrosion-vis'); const arrowVis = getId('corrosion-arrow-vis');
+            const outputDiv = getId('anode-output'); const visDiv = getId('corrosion-vis'); 
             toggleClass('corrosion-vis', 'hidden', true);
             if (!metal1_name || !metal2_name || metal1_name === metal2_name) { setHtml('anode-output', 'Selecciona dos metalls diferents.'); return; }
             const E1 = sacrificialPotentials[metal1_name]; const E2 = sacrificialPotentials[metal2_name];
